@@ -7,6 +7,7 @@ To launch this project, you need:
 - MySQL
 
 Launch MySQL service and create a database called **compiler_simulation**. 
+// to be continued
 
 Then do as following steps:
 ```
