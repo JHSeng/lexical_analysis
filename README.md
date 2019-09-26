@@ -6,8 +6,7 @@ To launch this project, you need:
 - Node.js
 - MySQL
 
-Launch MySQL service and create a database called **compiler_simulation**. 
-// to be continued
+Launch MySQL service and create a database called **compiler_simulation** and an account which username and password are **scutbanks**. Remember granting privileges on the account.
 
 Then do as following steps:
 ```
