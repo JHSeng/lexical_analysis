@@ -1,67 +1,62 @@
-/* eslint-disable no-array-constructor */
-/* eslint-disable brace-style */
-/* eslint-disable new-cap */
-/* eslint-disable no-invalid-this */
-/* eslint-disable require-jsdoc */
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
-// 运算符优先级、操作数个数表
-const OperatorInformationTable = [
-  {operator: '(', priority: 0, numOfParams: 0},
-  {operator: '[', priority: 0, numOfParams: 0},
-  {operator: '|', priority: 1, numOfParams: 2},
-  {operator: '..', priority: 2, numOfParams: 2}, // 链接运算符
-  {operator: '*', priority: 3, numOfParams: 1},
-  {operator: '+', priority: 3, numOfParams: 1},
-  {operator: '{', priority: 3, numOfParams: 1},
-  {operator: '?', priority: 3, numOfParams: 1},
-  {operator: ')', priority: 4, numOfParams: 0},
-  {operator: ']', priority: 4, numOfParams: 0},
-  {operator: '}', priority: 4, numOfParams: 1},
-  {operator: '\\', priority: 0, numOfParams: 1},
-  {operator: '<', priority: 0, numOfParams: 0}, // 人工添加的左括号
-  {operator: '>', priority: 4, numOFParams: 0}, // 人工添加的右括号
-];
-// 常规字符表
-const MiddlePackageAlphabet = [
+/* eslint-disable */
+//运算符优先级、操作数个数表
+var OperatorInformationTable = [
+  { operator: '(', priority: 0, numOfParams: 0 },
+  { operator: '[', priority: 0, numOfParams: 0 },
+  { operator: '|', priority: 1, numOfParams: 2 },
+  { operator: '..', priority: 2, numOfParams: 2 },  // 链接运算符
+  { operator: '*', priority: 3, numOfParams: 1 },
+  { operator: '+', priority: 3, numOfParams: 1 },
+  { operator: '{', priority: 3, numOfParams: 1 },
+  { operator: '?', priority: 3, numOfParams: 1 },
+  { operator: ')', priority: 4, numOfParams: 0 },
+  { operator: ']', priority: 4, numOfParams: 0 },
+  { operator: '}', priority: 4, numOfParams: 1 },
+  { operator: '\\', priority: 0, numOfParams: 1 },
+  { operator: '<', priority: 0, numOfParams: 0 },  //人工添加的左括号
+  { operator: '>', priority: 4, numOFParams: 0 }  //人工添加的右括号
+]
+//常规字符表
+var MiddlePackageAlphabet = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-];
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+]
 
-// 栈对象
-const Stack = function() {
+//栈对象
+var Stack = function () {
   this.dataStore = [];
   this.pop = pop;
   this.top = top;
   this.push = push;
   this.nullOrNot = nullOrNot;
-};
-// 出栈
+}
+//出栈
 function pop() {
   this.dataStore.length = this.dataStore.length - 1;
 }
-// 查看栈顶元素
+//查看栈顶元素
 function top() {
   return this.dataStore[this.dataStore.length - 1];
 }
-// 压栈
+//压栈
 function push(el) {
   this.dataStore[this.dataStore.length] = el;
 }
-// 判断栈是否为空
+//判断栈是否为空
 function nullOrNot() {
   if (this.dataStore.length == 0) {
     return true;
-  } else {
+  }
+  else {
     return false;
   }
 }
 
-// 返回运算符操作数的个数
+//返回运算符操作数的个数
 function NumOfParams(char) {
-  let numOfParams = -1;// 常规字符为-1
-  for (let i = 0; i < OperatorInformationTable.length; i++) {
+  var numOfParams = -1;//常规字符为-1
+  for (var i = 0; i < OperatorInformationTable.length; i++) {
     if (char == OperatorInformationTable[i].operator) {
       numOfParams = OperatorInformationTable[i].numOfParams;
       break;
@@ -69,10 +64,10 @@ function NumOfParams(char) {
   }
   return numOfParams;
 }
-// 返回运算符优先级
+//返回运算符优先级
 function Priority(char) {
-  let priority = -1;// 常规字符优先级为-1
-  for (let i = 0; i < OperatorInformationTable.length; i++) {
+  var priority = -1;//常规字符优先级为-1
+  for (var i = 0; i < OperatorInformationTable.length; i++) {
     if (char == OperatorInformationTable[i].operator) {
       priority = OperatorInformationTable[i].priority;
       break;
@@ -80,26 +75,28 @@ function Priority(char) {
   }
   return priority;
 }
-// 向 string 字符串中添加字符，返回新的 string
+//向 string 字符串中添加字符，返回新的 string
 // str 为原字符串， newChar 为要插入的单个字符，site 为要插入的位置
 function insertChar(str, newChar, site) {
-  let newStr = '';
+  var newStr = "";
   if (site === 0) {
     newStr = newChar + str;
     return newStr;
-  } else if (site > 0 && site < str.length) {
+  }
+  else if (site > 0 && site < str.length) {
     newStr = str.substring(0, site) + newChar + str.substring(site, str.length);
     return newStr;
-  } else if (site == str.length) {
+  }
+  else if (site == str.length) {
     newStr = str + newChar;
     return newStr;
-  } else {
-    return -1;
-  } // 插入的位置有误
+  }
+  else
+    return -1;  //插入的位置有误
 }
-// 括号匹配检测，传入字符串，字符串中某个左括号（左尖括号）的下标，返回该左括号（左尖括号）对应的右括号（右尖括号）的下标
+//括号匹配检测，传入字符串，字符串中某个左括号（左尖括号）的下标，返回该左括号（左尖括号）对应的右括号（右尖括号）的下标
 function bracketDetection(leftBracketIndex, str) {
-  const bracketStack = new Stack;
+  var bracketStack = new Stack;
   bracketStack.push(str[leftBracketIndex]);
   if (str[leftBracketIndex] === '(') {
     for (let i = leftBracketIndex + 1; i < str.length;) {
@@ -111,8 +108,9 @@ function bracketDetection(leftBracketIndex, str) {
           break;
         case ')':
           if (bracketStack.nullOrNot()) {
-            return {state: 0, message: 'Single \')\''};
-          } else {
+            return { state: 0, message: "Single \')\'" };
+          }
+          else {
             bracketStack.pop();
             if (bracketStack.nullOrNot()) {
               return i;
@@ -124,7 +122,8 @@ function bracketDetection(leftBracketIndex, str) {
           i++;
       }
     }
-  } else if (str[leftBracketIndex] === '<') {
+  }
+  else if (str[leftBracketIndex] === '<') {
     for (let i = leftBracketIndex + 1; i < str.length;) {
       currentChar = str[i];
       switch (currentChar) {
@@ -134,8 +133,9 @@ function bracketDetection(leftBracketIndex, str) {
           break;
         case '>':
           if (bracketStack.nullOrNot()) {
-            return {state: 0, message: 'Single \'>\''};
-          } else {
+            return { state: 0, message: "Single \'>\'" };
+          }
+          else {
             bracketStack.pop();
             if (bracketStack.nullOrNot()) {
               return i;
@@ -151,98 +151,106 @@ function bracketDetection(leftBracketIndex, str) {
 }
 
 // //测试 brackerDetection()
-// let testB="(ss)<a(a)a>";
+// var testB="(ss)<a(a)a>";
 // console.log(bracketDetection(4,testB));
 
 
-// 向一条正则表达式中添加语义的对象
-const singleRegularStringAddSemantic = function(string) {
-  // 属性
-  this.regularString = string; // 原始正则表达式
+//向一条正则表达式中添加语义的对象
+var singleRegularStringAddSemantic = function (string) {
+  //属性
+  this.regularString = string;  //原始正则表达式
 
-  // 函数
-  this.addConnector = addConnector; // 向正则表达式中添加连接符 '..'
+  //函数
+  this.addConnector = addConnector;  //向正则表达式中添加连接符 '..'
 
-  // 向正则表达式中添加括号第一步，为属于集合 { a*,a+,a?,a{},\d,\m,[] } 中类型的字符串添加 '()'
+  //向正则表达式中添加括号第一步，为属于集合 { a*,a+,a?,a{},\d,\m,[] } 中类型的字符串添加 '()'
   this.addBracketFirst = addBracketFirst;
-  // 向正则表达式中添加括号第二步，为属于集合 { ()*,()+,()?,(){} } 中类型的字符串添加 '()'
+  //向正则表达式中添加括号第二步，为属于集合 { ()*,()+,()?,(){} } 中类型的字符串添加 '()'
   this.addBracketSecond = addBracketSecond;
-  // 向正则表达式中添加括号第三步，将 X..Y 变为 (X..Y)，其中 X,Y 属于集合 { a,() }
+  //向正则表达式中添加括号第三步，将 X..Y 变为 (X..Y)，其中 X,Y 属于集合 { a,() }
   this.addBracketThird = addBracketThird;
-  // 向正则表达式中添加括号第四步，将 X|Y 变为 (X|Y)，其中 X,Y 属于集合 { a,() }
+  //向正则表达式中添加括号第四步，将 X|Y 变为 (X|Y)，其中 X,Y 属于集合 { a,() }
   this.addBracketFourth = addBracketFourth;
-  // 添加语义
+  //添加语义
   this.addSemantic = addSemantic;
-  // 去除连接运算符
+  //去除连接运算符
   this.removeConnector = removeConnector;
-};
-// 添加语义
+}
+//添加语义
 function addSemantic() {
-  let stateReturn = this.addConnector();
+  var stateReturn = this.addConnector();
   if (stateReturn.state === 0) {
     return stateReturn;
-  } else {
+  }
+  else {
     stateReturn = this.addBracketFirst();
   }
   if (stateReturn.state === 0) {
     return stateReturn;
-  } else {
+  }
+  else {
     stateReturn = this.addBracketSecond();
   }
   if (stateReturn.state === 0) {
     return stateReturn;
-  } else {
+  }
+  else {
     stateReturn = this.addBracketThird();
   }
   if (stateReturn.state === 0) {
     return stateReturn;
-  } else {
+  }
+  else {
     stateReturn = this.addBracketFourth();
   }
   if (stateReturn.state === 0) {
     return stateReturn;
-  } else {
+  }
+  else {
     stateReturn = this.removeConnector();
   }
   return stateReturn;
 }
-// 向正则表达式中添加连接符
+//向正则表达式中添加连接符
 function addConnector() {
-  // 用 str 储存原始正则表达式，str 在之后的运算中会改变
-  let str = this.regularString;
-  // 从左向右遍历正则表达式
+  //用 str 储存原始正则表达式，str 在之后的运算中会改变
+  var str = this.regularString;
+  //从左向右遍历正则表达式
   for (let i = 0; i < str.length;) {
     if (i === str.length - 1) {
       break;
     }
-    // 当前读到的字符
-    const currentChar = str[i];
-    // 通过当前字符操作数的个数，判断当前字符是什么
+    //当前读到的字符
+    var currentChar = str[i];
+    //通过当前字符操作数的个数，判断当前字符是什么
     switch (NumOfParams(currentChar)) {
-      case -1: // 当前字符是常规字符
+      case -1:  //当前字符是常规字符
         // 向前看一个字符，如果下一个字符的优先级小于等于 0，则在运算符栈中压入一个连接运算符 '..'
         if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
           str = insertChar(str, '..', i + 1);
-          i += 3; // 当前位置向右移三位
-        } else {
+          i += 3;  //当前位置向右移三位
+        }
+        else {
           i++;
         }
         break;
-      case 0: // 当前字符是零目运算符 '(' '[' ')' ']'
+      case 0:  //当前字符是零目运算符 '(' '[' ')' ']'
         switch (currentChar) {
           case '(':
-            // 如果下一个字符是')'
+            //如果下一个字符是')'
             if (i + 1 < str.length && str[i + 1] == ')') {
               i++;
               // 再看 ')' 的下一个字符 如果下一个字符的优先级小于等于 0,则向符号站中压入连接运算符 '..'
               if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
                 str = insertChar(str, '..', i + 1);
-                i += 3; // 当前位置向前移三位
-              } else {
+                i += 3;  //当前位置向前移三位
+              }
+              else {
                 i++;
               }
               break;
-            } else {
+            }
+            else {
               i++;
             }
             break;
@@ -250,8 +258,9 @@ function addConnector() {
             // 向前看一个字符，如果下一个字符的优先级小于等于 0，则在运算符栈中压入一个连接运算符 '..'
             if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
               str = insertChar(str, '..', i + 1);
-              i += 3; // 当前位置向右移三位
-            } else {
+              i += 3;  //当前位置向右移三位
+            }
+            else {
               i++;
             }
             break;
@@ -260,57 +269,61 @@ function addConnector() {
             while (str[i] != ']') {
               i++;
             }
-            // 再看']'的下一个字符，如果下一个字符优先级小于等于零，则在符号站中压入连接运算符 '..'
+            //再看']'的下一个字符，如果下一个字符优先级小于等于零，则在符号站中压入连接运算符 '..'
             if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
               str = insertChar(str, '..', i + 1);
-              i += 3; // 当前位置向右移三位
-            } else {
+              i += 3;  //当前位置向右移三位
+            }
+            else {
               i++;
             }
             break;
           case ']':
-            return {state: 0, message: 'single \'\]\'.'};
+            return { state: 0, message: "single \'\]\'." }
             break;
         }
         break;
-      case 1: // 当前字符是单目运算符 '*' '+' '{' '?' '}' '\'
+      case 1:  //当前字符是单目运算符 '*' '+' '{' '?' '}' '\'
         switch (currentChar) {
           case '\\':
-            // 如果转义运算符后面跟的是运算符，这把运算符转义
+            //如果转义运算符后面跟的是运算符，这把运算符转义
             if (Priority(str[i + 1]) >= 0) {
               i++;
-              // 向前看一个字符，如果下一个字符的优先级小于等于零，则在符号栈中压入链接运算符'..'
+              //向前看一个字符，如果下一个字符的优先级小于等于零，则在符号栈中压入链接运算符'..'
               if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
                 str = insertChar(str, '..', i + 1);
-                i += 3; // 当前位置向右移三位
-              } else {
+                i += 3;  //当前位置向右移三位
+              }
+              else {
                 i++;
               }
               break;
             }
-            // 如果转义运算符后面跟的是 'd', 则表示 [0-9]
+            //如果转义运算符后面跟的是 'd', 则表示 [0-9]
             else if (str[i + 1] == 'd') {
               i++;
-              // 向前看一个字符，如果下一个字符的优先级小于等于零，则在符号栈中压入链接运算符'..'
+              //向前看一个字符，如果下一个字符的优先级小于等于零，则在符号栈中压入链接运算符'..'
               if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
                 str = insertChar(str, '..', i + 1);
-                i += 3; // 当前位置向右移三位
-              } else {
+                i += 3;  //当前位置向右移三位
+              }
+              else {
                 i++;
               }
               break;
             }
-            // 如果转义运算符后面跟的不是运算符也不是字符 'd'，则报错
+            //如果转义运算符后面跟的不是运算符也不是字符 'd'，则报错
             else {
-              return {state: 0, message: 'invalid char after \'\\\''};
+              return { state: 0, message: "invalid char after \'\\\'" }
             }
             break;
           case '*':
             // 向前看一个字符，如果下一个字符的优先级小于等于 0，则在运算符栈中压入一个连接运算符 '..'
             if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
               str = insertChar(str, '..', i + 1);
-              i += 3; // 当前位置向右移三位
-            } else {
+              i += 3;  //当前位置向右移三位
+            }
+            else {
               i++;
             }
             break;
@@ -318,8 +331,9 @@ function addConnector() {
             // 向前看一个字符，如果下一个字符的优先级小于等于 0，则在运算符栈中压入一个连接运算符 '..'
             if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
               str = insertChar(str, '..', i + 1);
-              i += 3; // 当前位置向右移三位
-            } else {
+              i += 3;  //当前位置向右移三位
+            }
+            else {
               i++;
             }
             break;
@@ -327,13 +341,14 @@ function addConnector() {
             // 向前看一个字符，如果下一个字符的优先级小于等于 0，则在运算符栈中压入一个连接运算符 '..'
             if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
               str = insertChar(str, '..', i + 1);
-              i += 3; // 当前位置向右移三位
-            } else {
+              i += 3;  //当前位置向右移三位
+            }
+            else {
               i++;
             }
             break;
           case '{':
-            let next = i + 1;
+            var next = i + 1;
             for (; next < str.length; next++) {
               if (str[next] === ',' || str[next] === '}') {
                 break;
@@ -341,72 +356,78 @@ function addConnector() {
             }
             if (str[next] === ',') {
               if (str[next + 1] === '}') {
-              } else if (str[next + 2] === '}') {
-              } else {
-                return {state: 0, message: 'single \'\{\'.'};
+              }
+              else if (str[next + 2] === '}') {
+              }
+              else {
+                return { state: 0, message: "single \'\{\'." };
               }
             }
             if (next == str.length && str[next] !== '}') {
-              return {state: 0, message: 'single \'\{\'.'};
+              return { state: 0, message: "single \'\{\'." };
             }
             if (str[next] === '}') {
-              let numStr = '';
-              let num;
+              var numStr = "";
+              var num;
               if (next - i === 1) {
                 num = 0;
-              } else {
-                for (let m = i + 1; m < tempCount; m++) {
+              }
+              else {
+                for (var m = i + 1; m < tempCount; m++) {
                   if (str[m] != '0' && str[m] != '1' && str[m] != '2' && str[m] != '3' && str[m] != '4' &&
                     str[m] != '5' && str[m] != '6' && str[m] != '7' && str[m] != '8' && str[m] != '9') {
-                    return {state: 0, message: 'please enter integer in \'{}\''};
+                    return { state: 0, message: "please enter integer in '{}'" };
                   }
                   numStr += str[m];
                 }
                 num = parseInt(numStr);
               }
               if (num < 0) {
-                return {state: 0, message: 'num<0 after \'\{\''};
+                return { state: 0, message: "num<0 after \'\{\'" };
               }
               i = next;
-            } else {
-              let numOne;
-              let numTwo;
-              // 检查第一个数字
+            }
+            else {
+              var numOne;
+              var numTwo;
+              //检查第一个数字
               if (next - i === 1) {
                 numOne = 0;
-              } else {
-                let numStr = '';
-                for (let m = i + 1; m < next; m++) {
-                  numStr += str[m];
+              }
+              else {
+                var numStr = ""
+                for (var m = i + 1; m < next; m++) {
+                  numStr += str[m]
                 }
-                // let numStr = numStrArray.join("")
-                numOne = parseInt(numStr);
+                // var numStr = numStrArray.join("")
+                numOne = parseInt(numStr)
                 if (numOne < 0) {
                   // console.log("numOne < 0 , invalid")
-                  return {state: 0, message: 'numOne<0 after \'\{\'.'};
+                  return { state: 0, message: "numOne<0 after \'\{\'." };
                   break;
                 }
               }
-              // 检查第二个数字
+              //检查第二个数字
               i = next;
               next = i + 1;
               for (let m = next; m < str.length; m++) {
                 if (str[m] === '}') {
                   i = m;
-                  break;
+                  break
                 }
               }
               if (i === next) {
                 numTwo = -1;
-              } else {
-                let numStr = '';// new Array()
+              }
+              else {
+                var numStr = ""//new Array()
                 for (let m = next; m < i; m++) {
-                  numStr += str[m];
+                  numStr += str[m]
                 }
-                // let numStr = numStrArray.join("")
-                numTwo = parseInt(numStr);
+                // var numStr = numStrArray.join("")
+                numTwo = parseInt(numStr)
                 if (numTwo < numOne) {
-                  return {state: 0, message: 'numOne<numTwo after \'\{\''};
+                  return { state: 0, message: "numOne<numTwo after \'\{\'" }
                   break;
                 }
               }
@@ -414,59 +435,64 @@ function addConnector() {
             // 向前看一个字符，如果下一个字符的优先级小于等于 0，则在运算符栈中压入一个连接运算符 '..'
             if (i + 1 < str.length && Priority(str[i + 1]) <= 0) {
               str = insertChar(str, '..', i + 1);
-              i += 3; // 当前位置向右移三位
-            } else {
+              i += 3;  //当前位置向右移三位
+            }
+            else {
               i++;
             }
             break;
           case '}':
-            return {state: 0, message: 'single \'\}\'.'};
+            return { state: 0, message: "single \'\}\'." };
             break;
         }
         break;
-      case 2: // 当前字符是双目运算符 '|' '..'
+      case 2:  //当前字符是双目运算符 '|' '..'
         i++;
         break;
     }
   }
   this.regularString = str;
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
-// 向正则表达式中添加括号第一步，为属于集合 {a*,a+,a?,a{},\d,\m,[]} 中类型的字符串添加'<>'
+//向正则表达式中添加括号第一步，为属于集合 {a*,a+,a?,a{},\d,\m,[]} 中类型的字符串添加'<>'
 function addBracketFirst() {
-  let str = this.regularString;
+  var str = this.regularString;
   for (let i = 0; i < str.length;) {
-    const currentChar = str[i];
+    var currentChar = str[i];
     switch (NumOfParams(currentChar)) {
-      case -1: // 常规字符
-        let next = i + 1;
+      case -1: //常规字符
+        var next = i + 1;
         if (str[next] === '*') {
           str = insertChar(str, '<', i);
           str = insertChar(str, '>', next + 2);
           i = next + 3;
-        } else if (str[next] === '+') {
+        }
+        else if (str[next] === '+') {
           str = insertChar(str, '<', i);
           str = insertChar(str, '>', next + 2);
           i = next + 3;
-        } else if (str[next] === '?') {
+        }
+        else if (str[next] === '?') {
           str = insertChar(str, '<', i);
           str = insertChar(str, '>', next + 2);
           i = next + 3;
-        } else if (str[next] === '{') {
+        }
+        else if (str[next] === '{') {
           while (str[next] !== '}') {
             next++;
           }
           str = insertChar(str, '<', i);
           str = insertChar(str, '>', next + 2);
           i = next + 3;
-        } else {
+        }
+        else {
           i++;
         }
         break;
       case 0:
         switch (currentChar) {
           case '[':
-            let next = i + 1;
+            var next = i + 1;
             while (str[next] !== ']') {
               next++;
             }
@@ -484,10 +510,10 @@ function addBracketFirst() {
       case 1:
         switch (currentChar) {
           case '\\':
-            const next = i + 1;
+            var next = i + 1;
             str = insertChar(str, '<', i);
             str = insertChar(str, '>', next + 2);
-            i = next + 3; // 写到这了
+            i = next + 3; //写到这了
             break;
           default:
             i++;
@@ -498,18 +524,18 @@ function addBracketFirst() {
     }
   }
   this.regularString = str;
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
-// 向正则表达式中添加括号第二步，为属于集合 { ()*,()+,()?,(){},<>*,<>+,<>?,<>{} } 中类型的字符串添加 '<>'
+//向正则表达式中添加括号第二步，为属于集合 { ()*,()+,()?,(){},<>*,<>+,<>?,<>{} } 中类型的字符串添加 '<>'
 function addBracketSecond() {
-  let str = this.regularString;
+  var str = this.regularString;
   for (let i = 0; i < str.length;) {
-    const currentChar = str[i];
+    var currentChar = str[i];
     if (currentChar === '(') {
-      let next = bracketDetection(i, str) + 1;
-      // let next=i+1;
-      // let countLeftBracket=1;
-      // let countRightBracket=0;
+      var next = bracketDetection(i, str) + 1;
+      // var next=i+1;
+      // var countLeftBracket=1;
+      // var countRightBracket=0;
       // while(countLeftBracket!==countRightBracket){
       //   if(next<str.length && str[next]==='('){
       //     countLeftBracket++;
@@ -527,36 +553,43 @@ function addBracketSecond() {
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else if (str[next] === '+') {
+      }
+      else if (str[next] === '+') {
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else if (str[next] === '?') {
+      }
+      else if (str[next] === '?') {
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else if (str[next] === '{') {
+      }
+      else if (str[next] === '{') {
         while (str[next] !== '}') {
           next++;
         }
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else {
+      }
+      else {
         i++;
       }
-    } else if (currentChar === '<') {
-      let next = i + 1;
-      let countLeftBracket = 1;
-      let countRightBracket = 0;
+    }
+    else if (currentChar === '<') {
+      var next = i + 1;
+      var countLeftBracket = 1;
+      var countRightBracket = 0;
       while (countLeftBracket !== countRightBracket) {
         if (next < str.length && str[next] === '<') {
           countLeftBracket++;
           next++;
-        } else if (next < str.length && str[next] === '>') {
+        }
+        else if (next < str.length && str[next] === '>') {
           countRightBracket++;
           next++;
-        } else {
+        }
+        else {
           next++;
         }
       }
@@ -564,325 +597,373 @@ function addBracketSecond() {
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else if (str[next] === '+') {
+      }
+      else if (str[next] === '+') {
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else if (str[next] === '?') {
+      }
+      else if (str[next] === '?') {
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else if (str[next] === '{') {
+      }
+      else if (str[next] === '{') {
         while (str[next] !== '}') {
           next++;
         }
         str = insertChar(str, '<', i);
         str = insertChar(str, '>', next + 2);
         i = next + 3;
-      } else {
+      }
+      else {
         i++;
       }
-    } else {
+    }
+    else {
       i++;
     }
   }
   this.regularString = str;
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
-// 向正则表达式中添加括号第三步，将 X..Y 变为 <X..Y>，其中 X,Y 属于集合 { a,(),<> }
+//向正则表达式中添加括号第三步，将 X..Y 变为 <X..Y>，其中 X,Y 属于集合 { a,(),<> }
 function addBracketThird(str = this.regularString) {
-  let i = 0;
+  var i = 0;
   for (; i < str.length;) {
-    let currentChar = str[i];
+    var currentChar = str[i];
     switch (NumOfParams(currentChar)) {
-      case -1: // 常规字符
-        let next = i + 1; // 看向常规字符的下一位
-        if (next == str.length) { // 扫描到字符串末尾了
+      case -1:  //常规字符
+        var next = i + 1;  //看向常规字符的下一位
+        if (next == str.length) {  //扫描到字符串末尾了
           i = next;
-          break; // 算法结束
-        } else {
-          if (str[next] == '.') { // 如果下一位是一个连接符的开始 '.'，则表示应该加括号
+          break;  //算法结束
+        }
+        else {
+          if (str[next] == '.') {  //如果下一位是一个连接符的开始 '.'，则表示应该加括号
             str = insertChar(str, '<', i);
-            i += 4; // 将当前位置指向连接符 '..' 的下一位。因为添加了一个 '('，所以要加4。
+            i += 4;  //将当前位置指向连接符 '..' 的下一位。因为添加了一个 '('，所以要加4。
             currentChar = str[i];
-            if (NumOfParams(currentChar) === -1) { // 当前字符是常规字符
-              str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-              i = 0; // 重新开始扫描字符串
+            if (NumOfParams(currentChar) === -1) {  //当前字符是常规字符
+              str = insertChar(str, '>', i + 1);  // 在当前位置的下一个位置插入一个右尖括号 '>'
+              i = 0; //重新开始扫描字符串
               break;
-            } else if (currentChar == '(') { // 当前位置是一个左括号 '('
-              i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-              str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-              i = 0; // 重新开始扫描字符串
-              break;
-            } else if (currentChar === '<') {
-              i = bracketDetection(i, str); // 将当前位置更改为该左尖括号匹配的右尖括号的下标。
-              str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-              i = 0; // 重新开始扫描字符串
-              break;
-            } else {
-              return {state: 0, message: 'Regular string error!'};
             }
-          } else if (str[next] == '|') { // 如果下一位是一个或运算符 '|'
-            i += 2; // 不做任何处理，当前位置指向或运算符后面的位置
-          } else { // 如果下一位不是连接符的开始，也不是或运算符，说明正则表达式有问题，报错。
-            return {state: 0, message: 'Regular String Error!'};
+            else if (currentChar == '(') {  //当前位置是一个左括号 '('
+              i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+              str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+              i = 0;  //重新开始扫描字符串
+              break;
+            }
+            else if (currentChar === '<') {
+              i = bracketDetection(i, str);  //将当前位置更改为该左尖括号匹配的右尖括号的下标。
+              str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+              i = 0;  //重新开始扫描字符串
+              break;
+            }
+            else {
+              return { state: 0, message: "Regular string error!" };
+            }
+          }
+          else if (str[next] == '|') {  //如果下一位是一个或运算符 '|'
+            i += 2;  //不做任何处理，当前位置指向或运算符后面的位置
+          }
+          else {  //如果下一位不是连接符的开始，也不是或运算符，说明正则表达式有问题，报错。
+            return { state: 0, message: "Regular String Error!" };
           }
         }
         break;
-      case 0: // 运算符 '(' 和 ')' 和 '<' 和 '>'
+      case 0:  //运算符 '(' 和 ')' 和 '<' 和 '>'
         if (currentChar == '(') {
-          const leftIndex = i; // 记录左括号的下标
-          const rightIndex = bracketDetection(i, str); // 将当前位置更改为与该左括号匹配的右括号的下标
-          // 取出括号内的字符串，递归调用 addBracketThird() 函数
+          var leftIndex = i;  //记录左括号的下标
+          var rightIndex = bracketDetection(i, str);  //将当前位置更改为与该左括号匹配的右括号的下标
+          //取出括号内的字符串，递归调用 addBracketThird() 函数
           // str=str.substring(0,leftIndex+1)+(addBracketFirst(str.substring(leftIndex+1,rightIndex))).str+str.substring(rightIndex,str.length);
           i = bracketDetection(leftIndex, str);
           next = i + 1;
-          if (next == str.length) { // 扫描到字符串末尾了
+          if (next == str.length) {  //扫描到字符串末尾了
             i = next;
-            break; // 算法终止
-          } else {
-            if (str[next] == '.') { // 如果下一位是连接符的开始 '.'
-              str = insertChar(str, '<', leftIndex); // 在左括号前面加一个左尖括号
-              i += 4; // 将当前位置指向连接符 '..' 的下一位。因为添加了一个 '('，所以要加4。
+            break;  //算法终止
+          }
+          else {
+            if (str[next] == '.') {  //如果下一位是连接符的开始 '.'
+              str = insertChar(str, '<', leftIndex);  //在左括号前面加一个左尖括号
+              i += 4;  //将当前位置指向连接符 '..' 的下一位。因为添加了一个 '('，所以要加4。
               currentChar = str[i];
-              if (NumOfParams(currentChar) === -1) { // 当前字符是常规字符
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
+              if (NumOfParams(currentChar) === -1) {  //当前字符是常规字符
+                str = insertChar(str, '>', i + 1);  // 在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0; //重新开始扫描字符串
                 break;
-              } else if (currentChar == '(') { // 当前位置是一个左括号 '('
-                i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else if (currentChar === '<') {
-                i = bracketDetection(i, str); // 将当前位置更改为该左尖括号匹配的右尖括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else {
-                return {state: 0, message: 'Regular string error!'};
               }
-            } else if (str[next] == '|') {
-              i += 2; // 将当前位置指向或运算符后面的位置
-            } else {
-              return {state: 0, message: 'Regular String Error!'};
+              else if (currentChar == '(') {  //当前位置是一个左括号 '('
+                i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else if (currentChar === '<') {
+                i = bracketDetection(i, str);  //将当前位置更改为该左尖括号匹配的右尖括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else {
+                return { state: 0, message: "Regular string error!" };
+              }
+            }
+            else if (str[next] == '|') {
+              i += 2;  //将当前位置指向或运算符后面的位置
+            }
+            else {
+              return { state: 0, message: "Regular String Error!" };
             }
           }
-        } else if (currentChar == ')') {
-          return {state: 0, message: 'Single \')\'!'};
-        } else if (currentChar === '<') {
-          const leftIndex = i; // 记录左尖括号的下标
-          i = bracketDetection(i, str); // 将当前位置更改为与该左尖括号匹配的右尖括号的下标
+        }
+        else if (currentChar == ')') {
+          return { state: 0, message: "Single \')\'!" };
+        }
+        else if (currentChar === '<') {
+          var leftIndex = i;  //记录左尖括号的下标
+          i = bracketDetection(i, str);  //将当前位置更改为与该左尖括号匹配的右尖括号的下标
           next = i + 1;
-          if (next == str.length) { // 扫描到字符串末尾了
+          if (next == str.length) {  //扫描到字符串末尾了
             i = next;
-            break; // 算法终止
-          } else {
-            if (str[next] == '.') { // 如果下一位是连接符的开始 '.'
-              str = insertChar(str, '<', leftIndex); // 在左尖括号前面加一个左尖括号
-              i += 4; // 将当前位置指向连接符 '..' 的下一位。因为添加了一个 '<'，所以要加4。
+            break;  //算法终止
+          }
+          else {
+            if (str[next] == '.') {  //如果下一位是连接符的开始 '.'
+              str = insertChar(str, '<', leftIndex);  //在左尖括号前面加一个左尖括号
+              i += 4;  //将当前位置指向连接符 '..' 的下一位。因为添加了一个 '<'，所以要加4。
               currentChar = str[i];
-              if (NumOfParams(currentChar) === -1) { // 当前字符是常规字符
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
+              if (NumOfParams(currentChar) === -1) {  //当前字符是常规字符
+                str = insertChar(str, '>', i + 1);  // 在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0; //重新开始扫描字符串
                 break;
-              } else if (currentChar == '(') { // 当前位置是一个左括号 '('
-                i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else if (currentChar === '<') { // 当前位置是一个左尖括号 '<'
-                i = bracketDetection(i, str); // 将当前位置更改为该左尖括号匹配的右尖括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else {
-                return {state: 0, message: 'Regular string error!'};
               }
-            } else if (str[next] == '|') {
-              i += 2; // 将当前位置指向或运算符后面的位置
-            } else {
-              return {state: 0, message: 'Regular String Error!'};
+              else if (currentChar == '(') {  //当前位置是一个左括号 '('
+                i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else if (currentChar === '<') {  //当前位置是一个左尖括号 '<'
+                i = bracketDetection(i, str);  //将当前位置更改为该左尖括号匹配的右尖括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else {
+                return { state: 0, message: "Regular string error!" };
+              }
+            }
+            else if (str[next] == '|') {
+              i += 2;  //将当前位置指向或运算符后面的位置
+            }
+            else {
+              return { state: 0, message: "Regular String Error!" };
             }
           }
-        } else if (currentChar === '>') {
-          return {state: 0, message: 'Single \'>\'!'};
-        } else {
-          return {state: 0, message: 'Regular string Error!'};
+        }
+        else if (currentChar === '>') {
+          return { state: 0, message: "Single \'>\'!" };
+        }
+        else {
+          return { state: 0, message: "Regular string Error!" };
         }
         break;
       default:
-        return {state: 0, message: 'Regular string Error!'};
+        return { state: 0, message: "Regular string Error!" };
     }
   }
   this.regularString = str;
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
-// 向正则表达式中添加括号第四步，将 X|Y 变为 <X|Y>，其中 X,Y 属于集合 { a,(),<> }
+//向正则表达式中添加括号第四步，将 X|Y 变为 <X|Y>，其中 X,Y 属于集合 { a,(),<> }
 function addBracketFourth() {
-  let str = this.regularString;
-  let i = 0;
+  var str = this.regularString;
+  var i = 0;
   for (; i < str.length;) {
-    let currentChar = str[i];
+    var currentChar = str[i];
     switch (NumOfParams(currentChar)) {
-      case -1: // 常规字符
-        let next = i + 1; // 看向常规字符的下一位
-        if (next == str.length) { // 扫描到字符串末尾了
+      case -1:  //常规字符
+        var next = i + 1;  //看向常规字符的下一位
+        if (next == str.length) {  //扫描到字符串末尾了
           i = next;
-          break; // 算法结束
-        } else {
-          if (str[next] == '|') { // 如果下一位是一个或运算符 ‘|’
+          break;  //算法结束
+        }
+        else {
+          if (str[next] == '|') {  //如果下一位是一个或运算符 ‘|’
             str = insertChar(str, '<', i);
-            i += 3; // 将当前位置指向或运算符 '|' 的下一位。因为添加了一个 '<'，所以要加3。
+            i += 3;  //将当前位置指向或运算符 '|' 的下一位。因为添加了一个 '<'，所以要加3。
             currentChar = str[i];
-            if (NumOfParams(currentChar) === -1) { // 当前字符是常规字符
-              str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-              i = 0; // 重新开始扫描字符串
+            if (NumOfParams(currentChar) === -1) {  //当前字符是常规字符
+              str = insertChar(str, '>', i + 1);  // 在当前位置的下一个位置插入一个右尖括号 '>'
+              i = 0; //重新开始扫描字符串
               break;
-            } else if (currentChar == '(') { // 当前位置是一个左括号 '('
-              i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-              str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-              i = 0; // 重新开始扫描字符串
-              break;
-            } else if (currentChar == '<') { // 当前位置是一个左尖括号 '<'
-              i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-              str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-              i = 0; // 重新开始扫描字符串
-              break;
-            } else {
-              return {state: 0, message: 'Regular string error!'};
             }
-          } else { // 如果下一位不是或运算符，说明正则表达式有问题，报错。
-            return {state: 0, message: 'Regular String Error!'};
+            else if (currentChar == '(') {  //当前位置是一个左括号 '('
+              i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+              str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+              i = 0;  //重新开始扫描字符串
+              break;
+            }
+            else if (currentChar == '<') {  //当前位置是一个左尖括号 '<'
+              i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+              str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+              i = 0;  //重新开始扫描字符串
+              break;
+            }
+            else {
+              return { state: 0, message: "Regular string error!" };
+            }
+          }
+          else {  //如果下一位不是或运算符，说明正则表达式有问题，报错。
+            return { state: 0, message: "Regular String Error!" };
           }
         }
         break;
-      case 0: // 运算符 '(' 和 ')' 和 '<' 和 '>'
+      case 0:  //运算符 '(' 和 ')' 和 '<' 和 '>'
         if (currentChar == '(') {
-          const leftIndex = i; // 记录左括号的下标
-          i = bracketDetection(i, str); // 将当前位置更改为与该左括号匹配的右括号的下标
+          var leftIndex = i;  //记录左括号的下标
+          i = bracketDetection(i, str);  //将当前位置更改为与该左括号匹配的右括号的下标
           next = i + 1;
-          if (next == str.length) { // 扫描到字符串末尾了
+          if (next == str.length) {  //扫描到字符串末尾了
             i = next;
-            break; // 算法终止
-          } else {
-            if (str[next] == '|') { // 如果下一位是或运算符 ‘|’
-              str = insertChar(str, '<', leftIndex); // 在左括号前面加一个左尖括号
-              i += 3; // 将当前位置指向或运算符 '|' 的下一位。因为添加了一个 '<'，所以要加3。
+            break;  //算法终止
+          }
+          else {
+            if (str[next] == '|') {  //如果下一位是或运算符 ‘|’
+              str = insertChar(str, '<', leftIndex);  //在左括号前面加一个左尖括号
+              i += 3;  //将当前位置指向或运算符 '|' 的下一位。因为添加了一个 '<'，所以要加3。
               currentChar = str[i];
-              if (NumOfParams(currentChar) === -1) { // 当前字符是常规字符
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
+              if (NumOfParams(currentChar) === -1) {  //当前字符是常规字符
+                str = insertChar(str, '>', i + 1);  // 在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0; //重新开始扫描字符串
                 break;
-              } else if (currentChar == '(') { // 当前位置是一个左括号 '('
-                i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else if (currentChar == '<') { // 当前位置是一个左尖括号 '<'
-                i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else {
-                return {state: 0, message: 'Regular string error!'};
               }
-            } else {
-              return {state: 0, message: 'Regular String Error!'};
+              else if (currentChar == '(') {  //当前位置是一个左括号 '('
+                i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else if (currentChar == '<') {  //当前位置是一个左尖括号 '<'
+                i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else {
+                return { state: 0, message: "Regular string error!" };
+              }
+            }
+            else {
+              return { state: 0, message: "Regular String Error!" };
             }
           }
-        } else if (currentChar == ')') {
-          return {state: 0, message: 'Single \')\'!'};
-        } else if (currentChar === '<') {
-          const leftIndex = i; // 记录左尖括号的下标
-          i = bracketDetection(i, str); // 将当前位置更改为与该左尖括号匹配的右尖括号的下标
+        }
+        else if (currentChar == ')') {
+          return { state: 0, message: "Single \')\'!" };
+        }
+        else if (currentChar === '<') {
+          var leftIndex = i;  //记录左尖括号的下标
+          i = bracketDetection(i, str);  //将当前位置更改为与该左尖括号匹配的右尖括号的下标
           next = i + 1;
-          if (next == str.length) { // 扫描到字符串末尾了
+          if (next == str.length) {  //扫描到字符串末尾了
             i = next;
-            break; // 算法终止
-          } else {
-            if (str[next] == '|') { // 如果下一位是或运算符 ‘|’
-              str = insertChar(str, '<', leftIndex); // 在左尖括号前面加一个左尖括号
-              i += 3; // 将当前位置指向或运算符 '|' 的下一位。因为添加了一个 '<'，所以要加3。
+            break;  //算法终止
+          }
+          else {
+            if (str[next] == '|') {  //如果下一位是或运算符 ‘|’
+              str = insertChar(str, '<', leftIndex);  //在左尖括号前面加一个左尖括号
+              i += 3;  //将当前位置指向或运算符 '|' 的下一位。因为添加了一个 '<'，所以要加3。
               currentChar = str[i];
-              if (NumOfParams(currentChar) === -1) { // 当前字符是常规字符
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
+              if (NumOfParams(currentChar) === -1) {  //当前字符是常规字符
+                str = insertChar(str, '>', i + 1);  // 在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0; //重新开始扫描字符串
                 break;
-              } else if (currentChar == '(') { // 当前位置是一个左括号 '('
-                i = bracketDetection(i, str); // 将当前位置更改为该左括号匹配的右括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else if (currentChar == '<') { // 当前位置是一个左尖括号 '<'
-                i = bracketDetection(i, str); // 将当前位置更改为该左尖括号匹配的右尖括号的下标。
-                str = insertChar(str, '>', i + 1); // 在当前位置的下一个位置插入一个右尖括号 '>'
-                i = 0; // 重新开始扫描字符串
-                break;
-              } else {
-                return {state: 0, message: 'Regular string error!'};
               }
-            } else {
-              return {state: 0, message: 'Regular String Error!'};
+              else if (currentChar == '(') {  //当前位置是一个左括号 '('
+                i = bracketDetection(i, str);  //将当前位置更改为该左括号匹配的右括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else if (currentChar == '<') {  //当前位置是一个左尖括号 '<'
+                i = bracketDetection(i, str);  //将当前位置更改为该左尖括号匹配的右尖括号的下标。
+                str = insertChar(str, '>', i + 1); //在当前位置的下一个位置插入一个右尖括号 '>'
+                i = 0;  //重新开始扫描字符串
+                break;
+              }
+              else {
+                return { state: 0, message: "Regular string error!" };
+              }
+            }
+            else {
+              return { state: 0, message: "Regular String Error!" };
             }
           }
-        } else if (currentChar === '>') {
-          return {state: 0, message: 'Single \'>\'!'};
-        } else {
-          return {state: 0, message: 'Regular string Error!'};
+        }
+        else if (currentChar === '>') {
+          return { state: 0, message: "Single \'>\'!" };
+        }
+        else {
+          return { state: 0, message: "Regular string Error!" };
         }
         break;
       default:
-        return {state: 0, message: 'Regular string Error!'};
+        return { state: 0, message: "Regular string Error!" };
     }
   }
   this.regularString = str;
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
-// 去除连接运算符
+//去除连接运算符
 function removeConnector() {
-  let str = this.regularString;
+  var str = this.regularString;
   for (let i = 0; i < str.length;) {
-    const currentChar = str[i];
+    var currentChar = str[i];
     if (currentChar === '.') {
       str = str.substring(0, i) + str.substring(i + 2, str.length);
-    } else {
+    }
+    else {
       i++;
     }
   }
   this.regularString = str;
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
 
-// 给一组正则表达式组添加语义
-const finalAddSemantic = function(strArray) {
+//给一组正则表达式组添加语义
+var finalAddSemantic = function (strArray) {
   this.strArray = strArray;
   this.strArrayAddSemantic = strArrayAddSemantic;
-  this.newStrArray = new Array(); // 一个空数组，储存添加语义后的正则表达式
-};
-// 给一组正则表达式增加语义信息
+  this.newStrArray = new Array();  //一个空数组，储存添加语义后的正则表达式
+}
+//给一组正则表达式增加语义信息
 function strArrayAddSemantic() {
   for (let i = 0; i < this.strArray.length; ++i) {
-    const temp = new singleRegularStringAddSemantic(this.strArray[i]);
-    const tempState = temp.addSemantic();
+    var temp = new singleRegularStringAddSemantic(this.strArray[i]);
+    var tempState = temp.addSemantic();
     if (tempState.state === 0) {
-      const num = i + 1;
-      return {state: 0, message: '第' + num + '条正则表达式出错，' + tempState.message};
-    } else {
+      var num = i + 1;
+      return { state: 0, message: "第" + num + "条正则表达式出错，" + tempState.message };
+    }
+    else {
       this.newStrArray.push(temp.regularString);
     }
   }
-  return {state: 1, message: ''};
+  return { state: 1, message: "" };
 }
 
 
 // // 测试
-// // let temp="abcdefg"
-// // let subTemp=temp.substring(2,3);
+// // var temp="abcdefg"
+// // var subTemp=temp.substring(2,3);
 // // console.log(subTemp);
 // // 测试向正则表达式中添加小括号
 // console.log("start");
-// let test=new singleRegularStringAddSemantic
+// var test=new singleRegularStringAddSemantic
 // // ("(adf(ss)*)*dd");
 // ("(a*a+a?a{1,2}|\\d\\+[as])");
 // // ("asddfa*a+a?a{1,2}\\d\\+[as]|(as)*hjkl(as)+(a*a+a?a{1,2}|\\d\\+[as])?(as){1,2}");
@@ -899,12 +980,13 @@ function strArrayAddSemantic() {
 // test.removeConnector();
 // console.log(test.regularString);
 
-module.exports = function(strArray) {
-  const temp = new finalAddSemantic(strArray);
-  const stateReturn = temp.strArrayAddSemantic();
+module.exports = function (strArray) {
+  var temp = new finalAddSemantic(strArray);
+  var stateReturn = temp.strArrayAddSemantic();
   if (stateReturn.state === 0) {
     return stateReturn;
-  } else {
-    return {state: 1, message: stateReturn.message, result: temp.newStrArray};
   }
-};
+  else {
+    return { state: 1, message: stateReturn.message, result: temp.newStrArray };
+  }
+}

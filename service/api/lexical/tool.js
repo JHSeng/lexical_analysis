@@ -1,3 +1,4 @@
+/* eslint-disable */
 var DFA = function (test) {
   this.StateTransition = test.stateTransition
   this.alphabet = test.alphabet
