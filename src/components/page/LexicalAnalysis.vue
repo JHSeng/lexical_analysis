@@ -375,7 +375,20 @@
                   @click="startButton()"
                   :type="startbuttonType"
                 >{{startbuttonText}}</el-button>
+                <!-- <el-button size="small" class="autobutton" :disabled="!hasbegin" @click="autoControl()" :type="autobuttonType" plain>{{autobuttonText}}</el-button>
+                <el-button size="small" :disabled="!hasbegin" @click="previous()">上一步</el-button>
+                <el-button size="small" :disabled="!hasbegin" @click="next()">下一步</el-button>-->
               </el-row>
+              <!-- <div class="controller">
+                <el-row class="buttonela">
+                  <el-button :disabled="isFirsttime" @click="startButton()" :type="startbuttonType">{{startbuttonText}}</el-button>
+                  <el-button :disabled="!hasbegin" @click="previous()">上一步</el-button>
+                </el-row>
+                <el-row class="buttonelb">
+                  <el-button :disabled="!hasbegin" @click="autoControl()" :type="NFA.autobuttonType" plain>{{NFA.autobuttonText}}</el-button>
+                  <el-button :disabled="!hasbegin" @click="next()">下一步</el-button>
+
+              </div>-->
             </el-col>
           </el-row>
           <code-area3 ref="codearea3" :treeArray="tree" :RE="REForm.RE"></code-area3>
@@ -673,6 +686,7 @@ export default {
             .then(function(response) {
               //接受后端数据
               if (response.data.state === 1) {
+                // self.$refs.codearea.resetForm('REForm')
                 self.NFA.code = response.data.code[0];
                 self.DFA.code = response.data.code[1];
                 self.DFA_S.code = response.data.code[2];
@@ -692,6 +706,7 @@ export default {
                 self.DFA_S.data.acceptState =
                   response.data.result[2].acceptStateList;
                 self.regulation = regulation;
+                // sessionStorage.setItem('regulation', regulation)
                 self.addCSS(self.getCsstext());
                 self.isFirsttime = false;
                 self.tree = response.data.result[3].dataStore;
@@ -867,6 +882,9 @@ export default {
         clickToUse: true,
         layout: {
           hierarchical: {
+            // enabled: true,
+            // direction: 'LR', // UD, DU, LR, RL
+            // sortMethod: 'directed' // hubsize, directed
             enabled: true,
             direction: "LR"
           }
@@ -884,8 +902,16 @@ export default {
       self.doubleClick(self.DFA);
       self.doubleClick(self.DFA_S);
     },
+    // 重置表单
+    // resetForm (formName) {
+    //   this.$refs[formName].resetFields()
+    // },
+    // 开始分词
     startButton() {
       const self = this;
+
+      // self.TokenForm = 'dododouble'
+      // self.TokenForm = sessionStorage.getItem('msg')
       if (self.hasbegin === false) {
         if (self.TokenForm === "") {
           Message({
@@ -931,6 +957,7 @@ export default {
             self.DFA.nextState.graphInfo.highlightNodes,
             1
           );
+
           self.DFA_S.machine.feedText(self.TokenForm);
           self.DFA_S.nextState = self.DFA_S.machine.init();
           self.changeNode(
@@ -938,6 +965,7 @@ export default {
             self.DFA_S.nextState.graphInfo.highlightNodes,
             1
           );
+
           if (self.TabActiveName === "DFAGeneration") {
             if (self.DFA.first === true) {
               self.$nextTick(() => {
@@ -945,6 +973,7 @@ export default {
                   // better-scroll 会将点击事件去掉，要在这里开启，同时点击在PC 会被执行两次，要在这里控制
                   click: false,
                   bounce: false
+                  // disableMouse: true
                 });
               });
               self.DFA.first = false;
@@ -970,8 +999,10 @@ export default {
             if (self.NFA.first === true) {
               self.$nextTick(() => {
                 self.NFA.messBoxScroll = new BScroll(this.$refs.messBoxNFA, {
+                  // better-scroll 会将点击事件去掉，要在这里开启，同时点击在PC 会被执行两次，要在这里控制
                   click: false,
                   bounce: false
+                  // disableMouse: true
                 });
               });
               self.NFA.first = false;
@@ -999,6 +1030,7 @@ export default {
                 self.DFA_S.messBoxScroll = new BScroll(
                   this.$refs.messBoxDFA_S,
                   {
+                    // better-scroll 会将点击事件去掉，要在这里开启，同时点击在PC 会被执行两次，要在这里控制
                     click: true,
                     bounce: false
                   }
@@ -1024,6 +1056,7 @@ export default {
               }
             });
           }
+
           self.hasbegin = true;
           self.startbuttonType = "danger";
           self.startbuttonText = "停止分词";
@@ -1032,6 +1065,7 @@ export default {
         self.hasbegin = false;
         self.startbuttonType = "primary";
         self.startbuttonText = "开始分词";
+
         self.NFA.machine = null;
         self.refresh(self.NFA);
         self.NFA.Token = "";
@@ -1042,6 +1076,7 @@ export default {
           700,
           "bounce"
         );
+
         self.DFA.machine = null;
         self.refresh(self.DFA);
         self.DFA.Token = "";
@@ -1052,6 +1087,7 @@ export default {
           700,
           "bounce"
         );
+
         self.DFA_S.machine = null;
         self.refresh(self.DFA_S);
         self.DFA_S.Token = "";
@@ -1062,6 +1098,7 @@ export default {
           700,
           "bounce"
         );
+
         if (self.NFA.autobuttonText === "停止") {
           self.autoControl();
         }
@@ -1113,6 +1150,15 @@ export default {
         click: true
       });
     },
+    // 将消息push到消息数组中并刷新显示框
+    // pushMess (object, str) {
+    //   object.mess.push(str)
+    //   console.log(object.messBoxScroll.maxScrollY)
+    //   console.log(str)
+    //   object.messBoxScroll.scrollTo(0, object.messBoxScroll.maxScrollY, 700, 'bounce')
+    //   object.messBoxScroll.scrollTo(0, object.messBoxScroll.maxScrollY, 700, 'bounce')
+    //   // this.messBoxScroll.scrollTo(0, this.aa, 700, 'bounce')
+    // },
     // 改变节点的颜色
     changeNode(object, _nodes, status) {
       let bgcolor;
@@ -1189,12 +1235,23 @@ export default {
               type: "success",
               message: "Token提取完成"
             });
+            // self.pushMess(object, 'Token提取完成')
             break;
           case NFA_CODE.DOCLOSURE:
+            // self.$message({
+            //   type: 'success',
+            //   message: '闭包'
+            // })
+            // self.pushMess(object, '闭包')
             self.changeWindow(object);
             self.changeGraph(object, 2);
             break;
           case NFA_CODE.READCHAR:
+            // self.$message({
+            //   type: 'success',
+            //   message: '读取字符'
+            // })
+            // self.pushMess(object, '读取字符')
             self.changeWindow(object);
             self.changeGraph(object, 1);
             break;
@@ -1203,13 +1260,24 @@ export default {
               type: "success",
               message: "提取Token"
             });
+            // self.pushMess(object, '提取Token')
             self.changeWindow(object);
             self.changeGraph(object, 1);
             break;
           case NFA_CODE.REJECT:
+            // self.$message({
+            //   type: 'error',
+            //   message: '遇到了NFA拒绝的输入'
+            // })
+            // self.pushMess(object, '遇到了NFA拒绝的输入')
             alert("遇到了NFA拒绝的输入");
             break;
           case NFA_CODE.UNKNOWN:
+            // self.$message({
+            //   type: 'error',
+            //   message: '遇到了NFA不认识的字符'
+            // })
+            // self.pushMess(object, '遇到了NFA不认识的字符')
             alert("遇到了NFA不认识的字符");
             break;
           default:
@@ -1225,6 +1293,10 @@ export default {
             self.fitAnimated(object);
             break;
           case DFA_CODE.NEXTSTEP:
+            // self.$message({
+            //   type: 'success',
+            //   message: '读取字符'
+            // })
             self.changeWindow(object);
             self.changeGraph(object, 1);
             self.focusNode(
@@ -1233,12 +1305,17 @@ export default {
             );
             break;
           case DFA_CODE.READCHAR:
+            // self.$message({
+            //   type: 'info',
+            //   message: '遵循最长子串原则继续读字符'
+            // })
             self.changeWindow(object);
             self.changeGraph(object, 1);
             self.focusNode(
               object.nextState.graphInfo.highlightNodes[0],
               object
             );
+
             break;
           case DFA_CODE.ACCEPT:
             self.$message({
@@ -1251,11 +1328,20 @@ export default {
               object.nextState.graphInfo.highlightNodes[0],
               object
             );
+
             break;
           case DFA_CODE.REJECT:
+            // self.$message({
+            //   type: 'success',
+            //   message: '遇到了DFA拒绝的输入'
+            // })
             alert("遇到了DFA拒绝的输入");
             break;
           case DFA_CODE.UNKNOWN:
+            // self.$message({
+            //   type: 'success',
+            //   message: '遇到了DFA不认识的字符'
+            // })
             alert("遇到了DFA不认识的字符");
             break;
           default:
@@ -1292,6 +1378,10 @@ export default {
             });
             break;
           case NFA_CODE.PRESTEP:
+            // self.$message({
+            //   type: 'success',
+            //   message: '返回到上一个步骤'
+            // })
             self.changeWindow(object);
             self.changeGraph(object, 1);
             break;
@@ -1307,6 +1397,10 @@ export default {
             });
             break;
           case DFA_CODE.PRESTEP:
+            // self.$message({
+            //   type: 'success',
+            //   message: '返回到上一个步骤'
+            // })
             self.changeWindow(object);
             self.changeGraph(object, 1);
             self.focusNode(
@@ -1485,6 +1579,9 @@ export default {
         object.zoomicon = "static/img/fullscreen_24.png";
         object.fullscreenText = "全屏";
       }
+      // object.zoomicon = object.isFull_screen
+      //   ? 'static/img/fullscreen_24.png'
+      //   : 'static/img/fullscreen_exit_24.png'
       object.isFull_screen = !object.isFull_screen;
     },
     // 刷新图
@@ -1678,6 +1775,8 @@ export default {
   height: auto;
   width: 100%;
   margin-top: 20px;
+  /*background-color: rgba(125, 125, 125, 0.5);
+  padding: 2.5rem;*/
 }
 .token {
   background-color: #cccccc;

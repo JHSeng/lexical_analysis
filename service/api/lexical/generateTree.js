@@ -243,7 +243,7 @@ function generateTreeFirst() {
     const currentChar = str[i];
     switch (NumOfParams(currentChar)) {
       case -1: // 常规字符
-        let tempNode = new node(this.tree.dataStore.length, currentChar); // 声明一个节点存储这个常规字符
+        const tempNode = new node(this.tree.dataStore.length, currentChar); // 声明一个节点存储这个常规字符
         this.recordNode.set(tempNode.str, tempNode.id); // 将节点的字符串和 ID 记录下来，
         this.tree.push(tempNode); // 将这个节点加到树里面
         ++i; // 当前位置向后移一位
@@ -343,15 +343,15 @@ function generateTreeSecond() {
                 break;
               }
             }
-            let temp1 = this.strStack.pop(); // 取出字符串栈的栈顶，栈顶字符串是小括号里面的内容，在该字符串两端加上小括号后，再压回字符串栈
-            let tempId = this.recordNode.get(temp1); // 得到该字符串对应的 ID
+            const temp1 = this.strStack.pop(); // 取出字符串栈的栈顶，栈顶字符串是小括号里面的内容，在该字符串两端加上小括号后，再压回字符串栈
+            const tempId = this.recordNode.get(temp1); // 得到该字符串对应的 ID
             tempStr = '(' + temp1 + ')'; // 在该字符串两端加上小括号
             this.strStack.push(tempStr); // 把添加了小括号的字符串压回字符串栈中
-            let tempLeftId = this.tree.getNode(tempId).leftId; // 记录没加括号的字符串的 leftId
-            let tempRightId = this.tree.getNode(tempId).rightId; // 记录没加括号的字符串的 rightId
+            const tempLeftId = this.tree.getNode(tempId).leftId; // 记录没加括号的字符串的 leftId
+            const tempRightId = this.tree.getNode(tempId).rightId; // 记录没加括号的字符串的 rightId
             // this.recordNode.delete(temp1);  //将没加括号的字符串从记录中删除
             // this.tree.remove(tempId);  //将没加括号的字符串从树中删除
-            let tempNode = new node(this.tree.dataStore.length, tempStr, tempLeftId, tempRightId); // 创建一个新的节点，储存加了括号的字符串
+            const tempNode = new node(this.tree.dataStore.length, tempStr, tempLeftId, tempRightId); // 创建一个新的节点，储存加了括号的字符串
             this.recordNode.set(tempNode.str, tempNode.id); // 记录这个新的节点
             this.tree.push(tempNode); // 将新的节点加到树里面
             // 向前看一个字符，如果下一个字符的优先级小于等于0，则在运算符栈中压入一个连接运算符‘..’
@@ -411,13 +411,13 @@ function generateTreeSecond() {
             }
             break;
           case '{': // 这里就不检查是否有匹配的‘}’了，因为前面已经检查过了。
-            let tempStr = '{';
+            // let tempStr = '{';
             while (str[i] != '}') {
               ++i;
               tempStr += str[i];
             }
             tempStr = this.strStack.top() + tempStr; // 将字符串栈栈顶元素和 '{...}' 组合起来
-            let tempNode = new node(this.tree.dataStore.length, tempStr, this.recordNode.get(this.strStack.top())); // 声明一个新的节点，储存该字符串
+            const tempNode = new node(this.tree.dataStore.length, tempStr, this.recordNode.get(this.strStack.top())); // 声明一个新的节点，储存该字符串
             this.recordNode.set(tempNode.str, tempNode.id); // 将该字符串记录下来
             this.tree.push(tempNode); // 将该字符串添加到树里面
             this.strStack.pop(); // 将栈顶元素弹出
@@ -433,7 +433,7 @@ function generateTreeSecond() {
         }
         break;
       case 2: // 运算符‘..’和运算符‘|’。先将运算符栈内比自身优先级高的运算符弹出，然后再入栈
-        let priorityCurrent = Priority(currentChar);
+        const priorityCurrent = Priority(currentChar);
         let priorityTop = Priority(this.operatorStack.top());
         while (!this.operatorStack.nullOrNot() && priorityTop > priorityCurrent) {
           // 运算符栈栈顶运算符优先级比当前运算符优先级高
