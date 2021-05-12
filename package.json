@@ -25,7 +25,7 @@
     "express": "^4.16.3",
     "muse-ui": "^3.0.0-rc.4",
     "mysql": "^2.15.0",
-    "nodemailer": "^4.6.7",
+    "nodemailer": "^6.4.16",
     "vis": "^4.21.0",
     "vue": "^2.5.2",
     "vue-canvas-nest": "^0.2.2",
